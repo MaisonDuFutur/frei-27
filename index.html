@@ -29,6 +29,7 @@ a:hover{color:var(--glut)}
 #hero .whisper{font-size:clamp(15px,1.8vw,20px);color:#aaa;font-style:italic;margin:0}
 #hero .whisper2{position:absolute;z-index:1;font-family:"Oswald",sans-serif;letter-spacing:.3em;text-transform:uppercase;font-size:13px;color:#bbb}
 #hero .walser{position:absolute;z-index:0;left:0;right:0;top:50%;transform:translateY(-50%);font-family:"Oswald",sans-serif;font-weight:600;text-transform:uppercase;line-height:.82;font-size:clamp(80px,17vw,260px);color:transparent;-webkit-text-stroke:1px #3a3a3a;letter-spacing:.02em;pointer-events:none;user-select:none}
+#hero .brecht{position:absolute;z-index:0;right:4%;bottom:6%;font-family:"Oswald",sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(34px,6vw,90px);line-height:1;color:transparent;-webkit-text-stroke:1px #333;letter-spacing:.04em;pointer-events:none;user-select:none}
 #hero .walser small{display:block;font-size:.16em;letter-spacing:.4em;-webkit-text-stroke:0;color:#555;margin-top:.5em}
 #veil{position:absolute;inset:0;z-index:2;pointer-events:none;
  background:radial-gradient(circle var(--r,170px) at var(--x,50%) var(--y,45%),rgba(0,0,0,0) 0,rgba(0,0,0,.25) 45%,rgba(0,0,0,.965) 100%);
@@ -97,12 +98,45 @@ footer a{color:#aaa}
 .clips{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:14px 0 6px}.clips figure{margin:0}.clips video{width:100%;display:block;background:#111;border:1px solid #222}.clips.hoch{grid-template-columns:repeat(2,minmax(0,200px))}.clips figcaption{font-size:13px;color:#999;margin-top:6px}
 .termin .bild{display:block;width:120px;margin-top:12px;border:1px solid #222}.leute{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:14px;margin:10px 0 26px}.leute figure{margin:0}.leute img{width:100%;display:block}.leute figcaption{font-family:"Oswald",sans-serif;letter-spacing:.08em;font-size:13px;color:#bbb;margin-top:6px}
 @media(max-width:620px){.termin .bild{width:160px}}
+
+/* INTRO: geheimnisvoller Brand */
+#vorhang{position:fixed;inset:0;z-index:50;background:#000;display:flex;align-items:center;justify-content:center;flex-direction:column;transition:opacity 1.6s ease}
+#vorhang.weg{opacity:0;pointer-events:none}
+#vorhang video{position:absolute;inset:0;pointer-events:none;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .8s ease}
+#vorhang.laeuft video{opacity:1}
+#vorhang.laeuft #eintreten,#vorhang.laeuft .vhint{opacity:0;pointer-events:none}
+#eintreten{background:none;border:none;color:#d9d9d9;font-family:"Oswald",sans-serif;font-size:clamp(18px,2.6vw,28px);letter-spacing:.6em;padding:24px 32px 24px calc(32px + .6em);cursor:pointer;text-transform:uppercase;animation:ember 3.2s ease-in-out infinite;transition:opacity .8s}
+#eintreten:hover,#eintreten:focus-visible{color:#fff;outline:none;animation-duration:1.4s}
+@keyframes ember{0%,100%{opacity:.35;text-shadow:0 0 0 rgba(255,120,30,0)}50%{opacity:1;text-shadow:0 0 18px rgba(255,120,30,.55),0 0 42px rgba(255,60,0,.25)}}
+.vhint{position:absolute;bottom:22px;width:100%;text-align:center;color:#444;font-size:11px;letter-spacing:.35em;text-transform:uppercase;font-family:"Oswald",sans-serif;transition:opacity .8s}
+#ueberspringen{position:absolute;z-index:2;right:18px;bottom:18px;background:none;border:1px solid #333;color:#777;font-family:"Oswald",sans-serif;font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding:8px 14px;cursor:pointer}
+#ueberspringen:hover{color:#fff;border-color:#777}
+body.zu{overflow:hidden}
 </style>
 </head>
 <body>
+<div id="vorhang" role="dialog" aria-label="Eintritt">
+  <button id="eintreten" type="button">Eintreten</button>
+  <div class="vhint">mit Ton</div>
+  <video id="vfilm" src="intro.mp4" playsinline preload="auto" aria-hidden="true"></video>
+  <button id="ueberspringen" type="button">Überspringen</button>
+</div>
+<script>
+(function(){
+  var b=document.body,v=document.getElementById('vorhang'),f=document.getElementById('vfilm');
+  b.classList.add('zu');
+  function ende(){v.classList.add('weg');b.classList.remove('zu');try{f.pause()}catch(e){}setTimeout(function(){v.style.display='none'},1700)}
+  function start(){v.classList.add('laeuft');f.currentTime=0;f.muted=false;f.play().catch(function(){f.muted=true;f.play().catch(ende)})}
+  document.getElementById('eintreten').addEventListener('click',start);
+  document.getElementById('ueberspringen').addEventListener('click',ende);
+  f.addEventListener('ended',ende);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')ende()});
+})();
+</script>
 
 <header id="hero" aria-label="FREI 27, Im Finsteren">
   <div class="walser" aria-hidden="true">Robert<br>Walser</div>
+  <div class="brecht" aria-hidden="true">Brecht</div>
   <div class="inner">
     <h1><img src="frei27_logo_weiss.png" alt="FREI 27" class="logo"></h1>
     <p class="motto">Im Finsteren</p>
@@ -125,7 +159,9 @@ footer a{color:#aaa}
   <h2>Im Finsteren <span class="braille" aria-hidden="true">⠊⠍ ⠋⠊⠝⠎⠞⠑⠗⠑⠝</span></h2>
   <h3 id="t1">Wir beginnen dort, wo man wenig sieht.</h3>
   <p class="lead">Am 1. Januar 2027 wird das Werk von Robert Walser frei, siebzig Jahre nach seinem Tod. Auch Bertolt Brechts Werke werden frei. FREI 27 steht unter dem Motto «Im Finsteren»: Wir gehen in die Nacht, auf den Friedhof, in den Keller, ins Hören.</p>
-  <p>Es geht um Hell und Dunkel, um Sehen und Nicht-Sehen, um die einen, die im Licht stehen, und die anderen, die man im Dunkeln nicht sieht. Walsers «Der Theaterbrand» erzählt von einem Feuer im Theater und von einer Stadt, die nicht weinen will. Daraus entsteht über das Jahr ein neues Songspiel, gemeinsam mit Showcase Beat Le Mot aus Berlin.</p>
+  <p>Sonst wird jeder runde Geburtstag und jeder runde Todestag eines solchen Dichters gefeiert. Diesmal nicht. Am 25. Dezember 2026 jährt sich Robert Walsers Todestag zum 70. Mal, und kaum jemand spricht darüber. Bei Brecht, der im August 1956 starb, war es dieses Jahr ähnlich still. Denn wenige Tage nach dem Jahreswechsel werden beide frei. Für die Rechteinhaber ist das ein grosser Verlust. Vielleicht verliert ein Werk sogar an Wert, wenn es keinen Preis mehr hat. Oder es gewinnt einen anderen.</p>
+  <p>Das Robert Walser-Zentrum in Bern hütet seinen Nachlass. Ab dem 1. Januar 2027 gehört Walser niemandem mehr. Wir feiern das.</p>
+  <p>Es geht um Hell und Dunkel, um Sehen und Nicht-Sehen, um die einen, die im Licht stehen, und die anderen, die man im Dunkeln nicht sieht. Walsers «Der Theaterbrand» erzählt von einem Feuer im Theater und von einer Stadt, die nicht weinen will. Der Text erschien 1914 in Walsers Sammlung «Geschichten» im Kurt Wolff Verlag in Leipzig, mit Zeichnungen seines Bruders Karl Walser. Die Texte stammen aus Walsers frühen Jahren in München und Berlin. Daraus entsteht über das Jahr ein neues Songspiel, gemeinsam mit Showcase Beat Le Mot aus Berlin.</p>
   <blockquote>Die im Dunkeln sieht man nicht.<cite>Bertolt Brecht, «Die Dreigroschenoper»</cite></blockquote>
   <p>FREI ist kein Festival, sondern eine Programmreihe übers ganze Jahr. Sie taucht im Winter ins Dunkle ab, kommt im Frühling ans Licht und taucht im Dezember 2027 ein zweites Mal ab. Jeder Abend ist ein Radiolabor und wird als öffentliche Folge des Podcasts <a href="https://theaterpodcast.ch">«Was für ein Theater»</a> aufgezeichnet.</p>
   <button class="vorlesen" type="button" data-ziel="im-finsteren">Diesen Abschnitt vorlesen</button>
