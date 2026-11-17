@@ -92,6 +92,7 @@ footer a{color:#aaa}
 .vorlesen{background:none;border:1px solid #333;color:#aaa;font-family:"Oswald",sans-serif;letter-spacing:.2em;text-transform:uppercase;font-size:12px;padding:8px 14px;cursor:pointer;margin-top:6px}
 .vorlesen:hover{color:#fff;border-color:var(--glut)}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.clips{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin:14px 0 6px}.clips figure{margin:0}.clips video{width:100%;display:block;background:#111;border:1px solid #222}.clips.hoch{grid-template-columns:repeat(2,minmax(0,200px))}.clips figcaption{font-size:13px;color:#999;margin-top:6px}
 </style>
 </head>
 <body>
@@ -138,22 +139,26 @@ footer a{color:#aaa}
 
   <p class="monat">Dezember 2026 · Bern</p>
   <div class="termin">
-    <div class="wann">Fr 11.12.2026<small>16 bis 18 Uhr, danach Apéro</small></div>
+    <div class="wann">Fr 11.12.2026<small>16 Uhr · Besammlung beim Grab von Karl Walser, Schosshaldenfriedhof</small></div>
     <div>
       <span class="tag f">Prototyp im Dunkeln</span><span class="tag">Bern</span>
       <h4>Durchs wilde Kurdistan: Nachtspaziergang</h4>
-      <p>Der erste Versuch von «Im Finsteren». Ein Spaziergang in die einbrechende Nacht, vom Schosshaldenfriedhof bis zum Restaurant La Vie beim Bremgartenfriedhof. Unterwegs hören wir Aufnahmen, die in den Weg eingebaut sind. Danach Apéro. Bringen Sie gerne Freund:innen mit.</p>
+      <p>Der erste Versuch von «Im Finsteren». Wir treffen uns um 16 Uhr beim Grab von Karl Walser auf dem Schosshaldenfriedhof. Von dort geht es in die einbrechende Nacht, bis zum Restaurant La Vie beim Bremgartenfriedhof. Unterwegs hören wir Aufnahmen, die in den Weg eingebaut sind. Danach Apéro. Bringen Sie gerne Freund:innen mit.</p>
       <p class="mit">Mit freundlicher Unterstützung der Stanley Thomas Johnson Stiftung.</p>
     </div>
   </div>
 
   <p class="monat">Januar 2027 · Zürich</p>
   <div class="termin">
-    <div class="wann">Fr 1.1.2027<small>1.24 Uhr · virtuell</small></div>
+    <div class="wann">Fr 1.1.2027<small>1.24 Uhr · Krematorium Friedhof Sihlfeld</small></div>
     <div>
-      <span class="tag f">Robert Walser wird frei</span>
-      <h4>«Wir feiern nicht, wir gedenken.»</h4>
-      <p>In der ersten Nacht, in der Walsers Werk frei ist: ein Funke im Dunkeln, zu «Der Theaterbrand». Mehr verraten wir nicht.</p>
+      <span class="tag f">Premiere</span><span class="tag">Robert Walser wird frei</span>
+      <h4>«Der Theaterbrand»: Wir feiern nicht, wir gedenken.</h4>
+      <p>Premiere des Singspiels «Der Theaterbrand» nach Robert Walser, in der ersten Nacht, in der sein Werk frei ist. Um 1.24 Uhr, beim Krematorium auf dem Friedhof Sihlfeld.</p>
+      <div class="clips hoch">
+        <figure><video controls preload="none" playsinline poster="teaser_theaterbrand_1.jpg" src="teaser_theaterbrand_1.mp4"></video><figcaption>Teaser 1</figcaption></figure>
+        <figure><video controls preload="none" playsinline poster="teaser_theaterbrand_2.jpg" src="teaser_theaterbrand_2.mp4"></video><figcaption>Teaser 2</figcaption></figure>
+      </div>
     </div>
   </div>
   <div class="termin">
@@ -178,7 +183,7 @@ footer a{color:#aaa}
     <div class="wann">Mi 13.1.<small>20 Uhr · Keller 62</small></div>
     <div>
       <h4>Wem gehört die Musik?</h4>
-      <p>Musik, künstliche Intelligenz und Urheberrecht. Wem gehört ein Song, wenn eine Maschine mitgeschrieben hat? Dazu erste Elemente des Songspiels «Der Theaterbrand» und Einspieler aus Interviews. Um 21 Uhr ist Julian M. Grünthal online aus Tamins zugeschaltet, mit «Der Boss».</p>
+      <p>Musik, künstliche Intelligenz und Urheberrecht. Wem gehört ein Song, wenn eine Maschine mitgeschrieben hat? Dazu erste Elemente des Songspiels «Der Theaterbrand» und Einspieler aus Interviews. Um 21 Uhr ist Julian M. Grünthal online aus Tamins zugeschaltet und stellt «Der Theaterbrand» vor. Dazu Nicolas Stemann über «Der Herr der Ringe» und Lizenzfragen.</p>
       <p class="mit">Mit Michael Sauter (DJ Air Afrique). Gülistan Savgat liest «Der Theaterbrand». Mit Raphael Urweider. Gastgeber:innen: Laura Sophia Becker und Sama Schwarz.</p>
     </div>
   </div>
@@ -195,7 +200,13 @@ footer a{color:#aaa}
     <div>
       <span class="tag">Gastspiel</span>
       <h4>«Der Sanfte»</h4>
-      <p>Gastspiel von Lubosch Held.</p>
+      <p>Gastspiel von Lubosch Held. Im Podcast «Was für ein Theater» haben wir schon über das Stück gesprochen, hier drei Ausschnitte:</p>
+      <div class="clips">
+        <figure><video controls preload="none" playsinline poster="sanfte_1.jpg" src="sanfte_1.mp4"></video><figcaption>«Der Sanfte»</figcaption></figure>
+        <figure><video controls preload="none" playsinline poster="sanfte_2.jpg" src="sanfte_2.mp4"></video><figcaption>«Der Sanfte» und der Totalitarismus</figcaption></figure>
+        <figure><video controls preload="none" playsinline poster="sanfte_3.jpg" src="sanfte_3.mp4"></video><figcaption>«Der Sanfte», längerer Ausschnitt</figcaption></figure>
+      </div>
+      <p class="mit">Aus «Herbstgeflüster» Folge 3, ganze Folge auf <a href="https://www.youtube.com/watch?v=DuYmxSaKp1U&list=PLIrSxZ_-Kmog">YouTube</a>.</p>
     </div>
   </div>
   <div class="termin">
@@ -211,8 +222,12 @@ footer a{color:#aaa}
 
   <h3 style="margin-top:60px">Licht, und das zweite Abtauchen</h3>
   <div class="termin">
-    <div class="wann">Frühling 2027<small>Friedhof Sihlfeld</small></div>
-    <div><h4>Sihlfeld im Licht</h4><p>Zurück auf dem Sihlfeld, wenn die Tage länger werden, rund um Karl Walser.</p></div>
+    <div class="wann">Sa 17.4.2027<small>Friedhof Sihlfeld · Kapelle A</small></div>
+    <div><span class="tag f">Licht</span><span class="tag">Karl Walser 150</span><h4>Karl Walser in der Kapelle A</h4><p>Zurück auf dem Sihlfeld, wenn die Tage länger werden. Prof. Fuminari Niimoto spricht live aus Tokio über Karl Walser, der in Japan bis heute präsent ist. Das Publikum hört drinnen oder spaziert mit Kopfhörern durch den Park.</p></div>
+  </div>
+  <div class="termin">
+    <div class="wann">So 18.4.2027<small>Friedhof Sihlfeld</small></div>
+    <div><span class="tag">THE MAKERS</span><h4>«In Search of the Lost Future»</h4><p>Pierre Cassou-Noguès (Universität Paris 8) reiste im Frühling 2026 mit einer 360-Grad-Kamera im Zug von Pompeji bis zum Polarkreis und stellte allen dieselbe Frage: Was ist für dich die Zukunft? Film und Gespräch.</p></div>
   </div>
   <div class="termin">
     <div class="wann">Juni / Juli 2027<small>Zürich</small></div>
@@ -220,7 +235,7 @@ footer a{color:#aaa}
   </div>
   <div class="termin">
     <div class="wann">Sa 17.7.2027<small>Zürichsee</small></div>
-    <div><h4>Nachtmeerfahrt: 100 Jahre «Mahagonny-Songspiel»</h4><p>Eine Bootsfahrt in die Nacht, über Songspiel und Kapitalismus. Mit Elisabeth Bronfen, Wolfgang M. Schmitt und Veit Sprenger.</p></div>
+    <div><span class="tag f">100 Jahre</span><h4>Nachtmeerfahrt: 100 Jahre «Mahagonny-Songspiel»</h4><p>Am 17. Juli 1927 wurde das «Mahagonny-Songspiel» von Brecht, Weill und Elisabeth Hauptmann in Baden-Baden uraufgeführt. Genau hundert Jahre später fahren wir auf dem Zürichsee in die Nacht, über Songspiel und Kapitalismus.</p><p class="mit">Mit Elisabeth Bronfen und Wolfgang M. Schmitt, Showbeiträge von Showcase Beat Le Mot.</p></div>
   </div>
   <div class="termin">
     <div class="wann">Dezember 2027<small>Bern und Zürich</small></div>
