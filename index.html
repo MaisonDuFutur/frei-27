@@ -22,6 +22,7 @@ a:hover{color:var(--glut)}
 /* HERO mit Taschenlampe */
 #hero{position:relative;height:100vh;min-height:560px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;cursor:none}
 #hero .inner{position:relative;z-index:1;padding:0 20px}
+#hero h1 .logo{display:block;width:clamp(260px,56vw,760px);height:auto;margin:0 auto .2em}
 #hero h1{font-family:"Oswald",sans-serif;font-weight:600;font-size:clamp(90px,22vw,300px);line-height:.9;margin:0;color:#fff;letter-spacing:.01em}
 #hero .motto{font-family:"Playfair",serif;font-size:clamp(30px,5.5vw,64px);color:#fff;margin:.3em 0 .2em}
 #hero .braille{font-size:clamp(22px,3.4vw,40px);color:#bbb;margin:.2em 0 1.2em}
@@ -97,13 +98,13 @@ footer a{color:#aaa}
 
 <header id="hero" aria-label="FREI 27, Im Finsteren">
   <div class="inner">
-    <h1>FREI 27</h1>
+    <h1><img src="frei27_logo_weiss.png" alt="FREI 27" class="logo"></h1>
     <p class="motto">Im Finsteren</p>
     <p class="braille" aria-hidden="true">⠊⠍ ⠋⠊⠝⠎⠞⠑⠗⠑⠝</p>
     <p class="whisper">Be a spark in the dark.</p>
   </div>
-  <span class="whisper2" style="left:9%;top:18%">Robert Walser wird frei</span>
-  <span class="whisper2" style="right:8%;top:30%">Die im Dunkeln sieht man nicht</span>
+  <span class="whisper2" style="left:7%;top:12%">Robert Walser wird frei</span>
+  <span class="whisper2" style="right:6%;top:44%">Die im Dunkeln sieht man nicht</span>
   <span class="whisper2" style="left:12%;bottom:22%">Der Theaterbrand</span>
   <span class="whisper2" style="right:12%;bottom:16%">Hören · Tasten · Gehen</span>
   <div id="veil" aria-hidden="true"></div>
