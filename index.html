@@ -1,79 +1,309 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="de-CH">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>FREI 27 · Test Intro B</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>FREI 27 · Im Finsteren</title>
+<meta name="description" content="FREI 27 · Im Finsteren. Eine Programmreihe übers ganze Jahr: Robert Walser und Bertolt Brecht werden frei. Hell und Dunkel, Sehen und Nicht-Sehen, Hören und Tasten. Maison du Futur, Zürich und Bern.">
+<meta property="og:title" content="FREI 27 · Im Finsteren">
+<meta property="og:description" content="Robert Walsers Werk wird frei. Wir beginnen dort, wo man wenig sieht.">
 <style>
-  html,body{margin:0;height:100%;background:#000;color:#fff;font-family:"Oswald",Impact,sans-serif;overflow:hidden}
-  .layer{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column}
-  /* Schwelle */
-  #gate{cursor:pointer;transition:opacity 1.4s ease;z-index:3}
-  #gate.out{opacity:0;pointer-events:none}
-  #enter{background:none;border:none;color:#d9d9d9;font-family:inherit;font-weight:400;font-size:clamp(18px,2.6vw,28px);letter-spacing:.6em;padding:24px 32px 24px calc(32px + .6em);cursor:pointer;
-    animation:ember 3.2s ease-in-out infinite;text-transform:uppercase}
-  #enter:hover,#enter:focus-visible{color:#fff;outline:none;animation-duration:1.4s}
-  @keyframes ember{
-    0%,100%{opacity:.35;text-shadow:0 0 0 rgba(255,120,30,0)}
-    50%{opacity:1;text-shadow:0 0 18px rgba(255,120,30,.55),0 0 42px rgba(255,60,0,.25)}
-  }
-  .hint{position:fixed;bottom:22px;width:100%;text-align:center;color:#444;font-size:11px;letter-spacing:.35em;text-transform:uppercase}
-  /* Film */
-  #intro{opacity:0;transition:opacity .8s ease;pointer-events:none;z-index:1}
-  #intro.in{opacity:1}
-  #intro.out{opacity:0;transition:opacity 1.4s ease}
-  #intro video{height:100%;max-width:100%;object-fit:contain}
-  /* Danach */
-  #main{opacity:0;pointer-events:none;transition:opacity 2s ease .6s;z-index:2}
-  #again{z-index:4}
-  #main.in{opacity:1;pointer-events:auto}
-  h1{margin:0;font-weight:700;font-size:clamp(64px,16vw,220px);letter-spacing:.02em;line-height:1}
-  .date{margin-top:1.2rem;font-weight:500;font-size:clamp(16px,2.4vw,26px);letter-spacing:.3em;color:#bbb}
-  #again{position:fixed;right:18px;bottom:18px;display:none;background:none;border:1px solid #333;color:#777;font-family:inherit;font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding:8px 14px;cursor:pointer}
-  #again:hover{color:#fff;border-color:#777}
+@font-face{font-family:"Oswald";src:url("oswald.ttf") format("truetype");font-weight:200 700}
+@font-face{font-family:"Playfair";src:url("playfair.ttf") format("truetype");font-weight:400 900}
+:root{--glut:#ff7a1e;--glut2:#ff3c00;--grau:#9a9a9a;--dunkel:#5a5a5a}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:#000;color:#ddd;font-family:"Playfair",Georgia,serif;font-size:19px;line-height:1.6}
+a{color:#fff;text-decoration-color:var(--glut);text-underline-offset:3px}
+a:hover{color:var(--glut)}
+.caps{font-family:"Oswald",sans-serif;font-weight:300;letter-spacing:.32em;text-transform:uppercase}
+.braille{font-family:"Segoe UI Symbol","Apple Symbols","DejaVu Sans",sans-serif;letter-spacing:.18em;color:#666}
+
+/* HERO mit Taschenlampe */
+#hero{position:relative;height:100vh;min-height:560px;overflow:hidden;display:flex;align-items:center;justify-content:center;text-align:center;cursor:none}
+#hero .inner{position:relative;z-index:1;padding:0 20px}
+#hero h1{font-family:"Oswald",sans-serif;font-weight:600;font-size:clamp(90px,22vw,300px);line-height:.9;margin:0;color:#fff;letter-spacing:.01em}
+#hero .motto{font-family:"Playfair",serif;font-size:clamp(30px,5.5vw,64px);color:#fff;margin:.3em 0 .2em}
+#hero .braille{font-size:clamp(22px,3.4vw,40px);color:#bbb;margin:.2em 0 1.2em}
+#hero .whisper{font-size:clamp(15px,1.8vw,20px);color:#aaa;font-style:italic;margin:0}
+#hero .whisper2{position:absolute;z-index:1;font-family:"Oswald",sans-serif;letter-spacing:.3em;text-transform:uppercase;font-size:13px;color:#bbb}
+#veil{position:absolute;inset:0;z-index:2;pointer-events:none;
+ background:radial-gradient(circle var(--r,170px) at var(--x,50%) var(--y,45%),rgba(0,0,0,0) 0,rgba(0,0,0,.25) 45%,rgba(0,0,0,.965) 100%);
+ transition:opacity 1.6s ease}
+#spark{position:absolute;z-index:3;width:10px;height:10px;border-radius:50%;background:#fff;pointer-events:none;
+ box-shadow:0 0 12px 4px var(--glut),0 0 40px 12px rgba(255,60,0,.45);transform:translate(-50%,-50%);left:var(--x,50%);top:var(--y,45%);animation:flicker 1.8s infinite}
+@keyframes flicker{0%,100%{opacity:1}40%{opacity:.75}55%{opacity:.95}70%{opacity:.6}}
+body.licht #veil{opacity:0}
+body.licht #spark{opacity:0}
+body.licht #hero{cursor:auto}
+#lichtschalter{position:absolute;z-index:4;right:18px;top:18px;background:none;border:1px solid #444;color:#aaa;font-family:"Oswald",sans-serif;letter-spacing:.2em;text-transform:uppercase;font-size:12px;padding:8px 14px;cursor:pointer}
+#lichtschalter:hover{color:#fff;border-color:var(--glut)}
+.scrollhint{position:absolute;z-index:4;bottom:22px;left:0;right:0;text-align:center;color:#666;font-size:12px}
+
+/* Inhalt */
+main{max-width:860px;margin:0 auto;padding:0 22px 80px}
+section{padding:70px 0 10px;border-top:1px solid #1d1d1d}
+h2{font-family:"Oswald",sans-serif;font-weight:300;letter-spacing:.32em;text-transform:uppercase;font-size:14px;color:var(--grau);margin:0 0 6px}
+h2 .braille{font-size:16px;margin-left:12px;color:#444;letter-spacing:.12em}
+h3{font-family:"Playfair",serif;font-weight:400;font-size:30px;color:#fff;margin:.2em 0 .6em;line-height:1.25}
+p{margin:0 0 1em}
+.lead{font-size:23px;color:#eee;line-height:1.5}
+blockquote{margin:1.6em 0;padding:0 0 0 22px;border-left:2px solid var(--glut);color:#fff;font-style:italic;font-size:22px}
+blockquote cite{display:block;font-style:normal;font-family:"Oswald",sans-serif;letter-spacing:.2em;text-transform:uppercase;font-size:12px;color:var(--grau);margin-top:.5em}
+
+/* Bogen */
+.bogen{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin:28px 0 10px}
+.bogen div{padding:18px 14px 16px;min-height:150px;font-size:15px;line-height:1.45}
+.bogen b{display:block;font-family:"Oswald",sans-serif;font-weight:400;letter-spacing:.18em;text-transform:uppercase;font-size:12px;margin-bottom:8px}
+.b1{background:#050505;color:#999;border:1px solid #1a1a1a}
+.b2{background:#0b0805;color:#bbb;border:1px solid #2a1a0c}
+.b3{background:#e9e4da;color:#111}
+.b3 b{color:#7a4a10}
+.b4{background:#050505;color:#999;border:1px solid #1a1a1a}
+@media(max-width:700px){.bogen{grid-template-columns:1fr 1fr}}
+
+/* Programm */
+.termin{display:grid;grid-template-columns:150px 1fr;gap:6px 26px;padding:24px 0;border-bottom:1px solid #1a1a1a}
+.termin .wann{font-family:"Oswald",sans-serif;font-weight:400;letter-spacing:.08em;color:#fff;font-size:17px;line-height:1.35}
+.termin .wann small{display:block;color:var(--grau);font-weight:300;letter-spacing:.14em;text-transform:uppercase;font-size:12px;margin-top:4px}
+.termin h4{font-family:"Playfair",serif;font-weight:400;font-size:23px;color:#fff;margin:0 0 .3em;line-height:1.3}
+.termin p{font-size:17px;color:#c8c8c8;margin:0 0 .5em}
+.termin .mit{font-size:15px;color:var(--grau)}
+.tag{display:inline-block;font-family:"Oswald",sans-serif;font-size:11px;letter-spacing:.2em;text-transform:uppercase;border:1px solid #333;color:#aaa;padding:2px 8px;margin:0 6px 6px 0}
+.tag.f{border-color:var(--glut);color:var(--glut)}
+.monat{font-family:"Oswald",sans-serif;font-weight:300;letter-spacing:.32em;text-transform:uppercase;font-size:13px;color:var(--glut);margin:40px 0 0}
+@media(max-width:620px){.termin{grid-template-columns:1fr}}
+
+/* Förderung */
+.foerder{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-top:20px}
+.foerder div{border:1px solid #222;padding:18px;font-size:16px;color:#bbb}
+.foerder div.haupt{grid-column:1/-1;border-color:var(--glut);background:#0b0704}
+.foerder b{display:block;color:#fff;font-weight:400;font-size:19px;margin-bottom:4px}
+@media(max-width:620px){.foerder{grid-template-columns:1fr}}
+details{border-top:1px solid #1a1a1a;padding:14px 0}
+summary{cursor:pointer;color:#fff;font-size:19px;list-style:none}
+summary::before{content:"+ ";color:var(--glut)}
+details[open] summary::before{content:"– "}
+details p{font-size:16px;color:#bbb;margin:.6em 0 0}
+video{width:100%;display:block;background:#000;border:1px solid #1a1a1a}
+footer{max-width:860px;margin:0 auto;padding:40px 22px 60px;border-top:1px solid #1a1a1a;font-size:14px;color:#777}
+footer a{color:#aaa}
+.vorlesen{background:none;border:1px solid #333;color:#aaa;font-family:"Oswald",sans-serif;letter-spacing:.2em;text-transform:uppercase;font-size:12px;padding:8px 14px;cursor:pointer;margin-top:6px}
+.vorlesen:hover{color:#fff;border-color:var(--glut)}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
 </style>
 </head>
 <body>
-<div id="gate" class="layer">
-  <button id="enter" type="button">Eintreten</button>
-  <div class="hint">mit Ton</div>
-</div>
-<div id="intro" class="layer">
-  <video id="v" src="intro.mp4" playsinline preload="auto"></video>
-</div>
-<div id="main" class="layer">
-  <h1>FREI 27</h1>
-  <div class="date">1.1.2027</div>
-</div>
-<button id="again" type="button">Nochmals</button>
+
+<header id="hero" aria-label="FREI 27, Im Finsteren">
+  <div class="inner">
+    <h1>FREI 27</h1>
+    <p class="motto">Im Finsteren</p>
+    <p class="braille" aria-hidden="true">⠊⠍ ⠋⠊⠝⠎⠞⠑⠗⠑⠝</p>
+    <p class="whisper">Be a spark in the dark.</p>
+  </div>
+  <span class="whisper2" style="left:9%;top:18%">Robert Walser wird frei</span>
+  <span class="whisper2" style="right:8%;top:30%">Die im Dunkeln sieht man nicht</span>
+  <span class="whisper2" style="left:12%;bottom:22%">Der Theaterbrand</span>
+  <span class="whisper2" style="right:12%;bottom:16%">Hören · Tasten · Gehen</span>
+  <div id="veil" aria-hidden="true"></div>
+  <div id="spark" aria-hidden="true"></div>
+  <button id="lichtschalter" type="button" aria-pressed="false">Licht an</button>
+  <div class="scrollhint caps">Mit der Maus oder dem Finger leuchten · weiter unten das Programm</div>
+</header>
+
+<main>
+
+<section id="im-finsteren" aria-labelledby="t1">
+  <h2>Im Finsteren <span class="braille" aria-hidden="true">⠊⠍ ⠋⠊⠝⠎⠞⠑⠗⠑⠝</span></h2>
+  <h3 id="t1">Wir beginnen dort, wo man wenig sieht.</h3>
+  <p class="lead">Am 1. Januar 2027 wird das Werk von Robert Walser frei, siebzig Jahre nach seinem Tod. Auch Bertolt Brechts Werke werden frei. FREI 27 steht unter dem Motto «Im Finsteren»: Wir gehen in die Nacht, auf den Friedhof, in den Keller, ins Hören.</p>
+  <p>Es geht um Hell und Dunkel, um Sehen und Nicht-Sehen, um die einen, die im Licht stehen, und die anderen, die man im Dunkeln nicht sieht. Walsers «Der Theaterbrand» erzählt von einem Feuer im Theater und von einer Stadt, die nicht weinen will. Daraus entsteht über das Jahr ein neues Songspiel, gemeinsam mit Showcase Beat Le Mot aus Berlin.</p>
+  <blockquote>Die im Dunkeln sieht man nicht.<cite>Bertolt Brecht, «Die Dreigroschenoper»</cite></blockquote>
+  <p>FREI ist kein Festival, sondern eine Programmreihe übers ganze Jahr. Sie taucht im Winter ins Dunkle ab, kommt im Frühling ans Licht und taucht im Dezember 2027 ein zweites Mal ab. Jeder Abend ist ein Radiolabor und wird als öffentliche Folge des Podcasts <a href="https://theaterpodcast.ch">«Was für ein Theater»</a> aufgezeichnet.</p>
+  <button class="vorlesen" type="button" data-ziel="im-finsteren">Diesen Abschnitt vorlesen</button>
+
+  <div class="bogen" role="list" aria-label="Der Bogen durchs Jahr">
+    <div class="b1" role="listitem"><b>Abtauchen I</b>Dezember 2026, Bern: ein Prototyp im Dunkeln, nachts unterwegs.</div>
+    <div class="b2" role="listitem"><b>Theaterbrand</b>Januar 2027, Zürich: Walser in der Neujahrsnacht, eine Woche im Keller 62.</div>
+    <div class="b3" role="listitem"><b>Licht</b>Frühling und Sommer 2027: Sihlfeld im Frühling, Showcase Beat Le Mot, Nachtmeerfahrt.</div>
+    <div class="b4" role="listitem"><b>Abtauchen II</b>Dezember 2027: Walser-Lesungen und Spaziergänge im Dunkeln.</div>
+  </div>
+</section>
+
+<section id="programm" aria-labelledby="t2">
+  <h2>Programm <span class="braille" aria-hidden="true">⠏⠗⠕⠛⠗⠁⠍⠍</span></h2>
+  <h3 id="t2">Abtauchen I: Dezember und Januar</h3>
+
+  <p class="monat">Dezember 2026 · Bern</p>
+  <div class="termin">
+    <div class="wann">Fr 11.12.2026<small>16 bis 18 Uhr, danach Apéro</small></div>
+    <div>
+      <span class="tag f">Prototyp im Dunkeln</span><span class="tag">Bern</span>
+      <h4>Durchs wilde Kurdistan: Nachtspaziergang</h4>
+      <p>Der erste Versuch von «Im Finsteren». Ein Spaziergang in die einbrechende Nacht, vom Schosshaldenfriedhof bis zum Restaurant La Vie beim Bremgartenfriedhof. Unterwegs hören wir Aufnahmen, die in den Weg eingebaut sind. Danach Apéro. Bringen Sie gerne Freund:innen mit.</p>
+      <p class="mit">Mit freundlicher Unterstützung der Stanley Thomas Johnson Stiftung.</p>
+    </div>
+  </div>
+
+  <p class="monat">Januar 2027 · Zürich</p>
+  <div class="termin">
+    <div class="wann">Fr 1.1.2027<small>1.24 Uhr · virtuell</small></div>
+    <div>
+      <span class="tag f">Robert Walser wird frei</span>
+      <h4>«Wir feiern nicht, wir gedenken.»</h4>
+      <p>In der ersten Nacht, in der Walsers Werk frei ist: ein Funke im Dunkeln, zu «Der Theaterbrand». Mehr verraten wir nicht.</p>
+    </div>
+  </div>
+  <div class="termin">
+    <div class="wann">Sa 9.1. und So 10.1.<small>je 16 Uhr · Friedhof Sihlfeld</small></div>
+    <div>
+      <span class="tag">Kapelle A</span><span class="tag">Funkkopfhörer</span>
+      <h4>Robert Walser: Das Werk wird frei</h4>
+      <p>Zwei Wintertage zwischen Park und Kapelle A. Am Samstag hält Wolfgang M. Schmitt den Festvortrag, Veit Sprenger liest, danach gehen wir gemeinsam. Am Sonntag spricht Julia Röthinger über Dürrenmatt, KI und das Spazieren, Dr. Marie Kakinuma über Paul Klee, Robert Walser und Karl Walsers Wandbild in der Kapelle A. Zu hören drinnen oder draussen über Funkkopfhörer, beim Gang über den winterlichen Friedhof.</p>
+    </div>
+  </div>
+
+  <p class="monat">Keller 62 · öffentliche Aufnahmen «Was für ein Theater» · Bar offen</p>
+  <div class="termin">
+    <div class="wann">Di 12.1.<small>20 Uhr · Keller 62</small></div>
+    <div>
+      <h4>Theaterschaffende als Brandstifter: 10 Jahre Gessnergate</h4>
+      <p>Was darf Theater, und was passiert, wenn es zum öffentlichen Konflikt wird? Ein Gespräch über Theater als Störung und Intervention.</p>
+      <p class="mit">Mit Esther Slevogt, Veit Sprenger und Sama Schwarz. Lesung: Hagar Admoni-Schipper. Gastgeberin: Laura Sophia Becker.</p>
+    </div>
+  </div>
+  <div class="termin">
+    <div class="wann">Mi 13.1.<small>20 Uhr · Keller 62</small></div>
+    <div>
+      <h4>Wem gehört die Musik?</h4>
+      <p>Musik, künstliche Intelligenz und Urheberrecht. Wem gehört ein Song, wenn eine Maschine mitgeschrieben hat? Dazu erste Elemente des Songspiels «Der Theaterbrand» und Einspieler aus Interviews. Um 21 Uhr ist Julian M. Grünthal online aus Tamins zugeschaltet, mit «Der Boss».</p>
+      <p class="mit">Mit Michael Sauter (DJ Air Afrique). Gülistan Savgat liest «Der Theaterbrand». Mit Raphael Urweider. Gastgeber:innen: Laura Sophia Becker und Sama Schwarz.</p>
+    </div>
+  </div>
+  <div class="termin">
+    <div class="wann">Do 14.1.<small>20 Uhr · Keller 62</small></div>
+    <div>
+      <h4>Was wird frei, und was nicht?</h4>
+      <p>Ein Literaturabend zu Brecht, Elisabeth Hauptmann und «Mahagonny». Wem gehört ein Werk, das aus Zusammenarbeit entstanden ist? Mit Gästen aus Verlag und Urheberrecht.</p>
+      <p class="mit">Gastgeber:innen: Laura Sophia Becker und Sama Schwarz.</p>
+    </div>
+  </div>
+  <div class="termin">
+    <div class="wann">Fr 15.1.<small>Keller 62</small></div>
+    <div>
+      <span class="tag">Gastspiel</span>
+      <h4>«Der Sanfte»</h4>
+      <p>Gastspiel von Lubosch Held.</p>
+    </div>
+  </div>
+  <div class="termin">
+    <div class="wann">Sa 16.1.<small>ab 11 Uhr · Keller 62</small></div>
+    <div>
+      <span class="tag f">Workshop Dunkelheit</span><span class="tag">Showcase Beat Le Mot</span>
+      <h4>Ein Tag im Finsteren</h4>
+      <p><strong>Ab 11 Uhr:</strong> Workshop mit Veit Sprenger (Showcase Beat Le Mot) zum Thema Dunkelheit.<br>
+      <strong>16 Uhr:</strong> Was im Workshop entstanden ist, dazu Kaspar Weiss mit einer Lesung aus «Der Theaterbrand».<br>
+      <strong>Abends:</strong> Gastspiel «Volta Çark».</p>
+    </div>
+  </div>
+
+  <h3 style="margin-top:60px">Licht, und das zweite Abtauchen</h3>
+  <div class="termin">
+    <div class="wann">Frühling 2027<small>Friedhof Sihlfeld</small></div>
+    <div><h4>Sihlfeld im Licht</h4><p>Zurück auf dem Sihlfeld, wenn die Tage länger werden, rund um Karl Walser.</p></div>
+  </div>
+  <div class="termin">
+    <div class="wann">Juni / Juli 2027<small>Zürich</small></div>
+    <div><h4>Showcase Beat Le Mot in Zürich</h4><p>Die Berliner Gruppe arbeitet mit uns am Songspiel «Der Theaterbrand», im Rahmen ihres Zyklus «Brecht Brute».</p></div>
+  </div>
+  <div class="termin">
+    <div class="wann">Sa 17.7.2027<small>Zürichsee</small></div>
+    <div><h4>Nachtmeerfahrt: 100 Jahre «Mahagonny-Songspiel»</h4><p>Eine Bootsfahrt in die Nacht, über Songspiel und Kapitalismus. Mit Elisabeth Bronfen, Wolfgang M. Schmitt und Veit Sprenger.</p></div>
+  </div>
+  <div class="termin">
+    <div class="wann">Dezember 2027<small>Bern und Zürich</small></div>
+    <div><h4>Abtauchen II</h4><p>Walser-Lesungen und nächtliche Spaziergänge im Dunkeln. Verwandt damit ist «Im Fyschtere», die Reihe zum berndeutschen «Hobbit» in Bern und im Lauterbrunnental im Herbst 2027.</p></div>
+  </div>
+  <p style="margin-top:22px;color:#888;font-size:16px">Weitere Programmpunkte folgen. Fragen: <a href="mailto:info@maison-du-futur.ch">info@maison-du-futur.ch</a></p>
+</section>
+
+<section id="hoeren-tasten" aria-labelledby="t3">
+  <h2>Hören und Tasten <span class="braille" aria-hidden="true">⠓⠪⠗⠑⠝</span></h2>
+  <h3 id="t3">Wer nicht sieht, ist hier nicht mitgemeint, sondern vorausgesetzt.</h3>
+  <p>«Im Finsteren» ist aufs Hören gebaut. Deshalb ist die Teilhabe von Menschen, die nicht oder schlecht sehen, kein Zusatz, sondern der Ausgangspunkt. Im Januar probieren wir einen ersten Prototyp aus: einen Taststein zu Walsers «Der Theaterbrand», verbunden mit einem Hörstück an einer Bank auf dem Friedhof Sihlfeld, das über die App Songmapp nur dort zu hören ist.</p>
+  <p>Das ist noch keine fertige Lösung. Es sind erste Versuche, wie man mit Dunkelheit, mit Hören und Tasten eine Form von Inklusion angeht, die für alle eine neue Erfahrung ist. Beraten werden wir dabei von Pro Infirmis, Fachstelle Kultur inklusiv.</p>
+  <p style="font-size:16px;color:#888">Die Punktschrift auf dieser Seite ist echte Blindenschrift (Vollschrift). Für Screenreader ist sie ausgeblendet, der Text steht daneben in normaler Schrift. Jeder längere Abschnitt lässt sich vorlesen.</p>
+  <button class="vorlesen" type="button" data-ziel="hoeren-tasten">Diesen Abschnitt vorlesen</button>
+</section>
+
+<section id="funke" aria-labelledby="t4">
+  <h2>Der Funke</h2>
+  <h3 id="t4">Be a spark in the dark.</h3>
+  <video src="intro.mp4" controls playsinline preload="metadata" aria-label="Kurzer Film zu FREI 27"></video>
+</section>
+
+<section id="beteiligte" aria-labelledby="t5">
+  <h2>Beteiligte</h2>
+  <h3 id="t5">Wer mitmacht</h3>
+  <details><summary>Showcase Beat Le Mot · Veit Sprenger</summary><p>Veit Sprenger ist Theatermacher, Autor und Gründungsmitglied der Berliner Performancegruppe Showcase Beat Le Mot, deren Arbeiten international gezeigt werden. Mit dem Zyklus «Brecht Brute» ist die Gruppe Partnerin von FREI 27 und entwickelt mit uns das Songspiel «Der Theaterbrand».</p></details>
+  <details><summary>Esther Slevogt</summary><p>Chefredakteurin und Mitgründerin von nachtkritik.de. Autorin unter anderem der Wolfgang-Langhoff-Biografie «Den Kommunismus mit der Seele suchen» und von «Auf den Brettern der Welt» über das Deutsche Theater Berlin.</p></details>
+  <details><summary>Wolfgang M. Schmitt</summary><p>Filmkritiker, Autor und Podcaster, bekannt durch «Die Filmanalyse», die Filme gesellschafts- und ideologiekritisch liest.</p></details>
+  <details><summary>Julia Röthinger</summary><p>Literaturwissenschaftlerin, Kuratorin und Kulturvermittlerin am Centre Dürrenmatt Neuchâtel.</p></details>
+  <details><summary>Dr. Marie Kakinuma</summary><p>Kunsthistorikerin am Zentrum Paul Klee, zu Paul Klee, Robert Walser und Karl Walser.</p></details>
+  <details><summary>Laura Sophia Becker</summary><p>Autorin, Schauspielerin und Regisseurin. Engagements unter anderem am Schauspielhaus Zürich und am Edinburgh Festival, Formate an der Schnittstelle von Theater und Digitalität. Gastgeberin der Abende im Keller 62.</p></details>
+  <details><summary>Hagar Admoni-Schipper</summary><p>Schauspielerin, Autorin und Produzentin, seit über zwanzig Jahren in Theater, Film und Fernsehen, mit einem Schwerpunkt auf politischen und gesellschaftlichen Konflikten.</p></details>
+  <details><summary>Michael Sauter (DJ Air Afrique)</summary><p>Musiker und Komponist für Film, Theater und Tanz, verbunden mit 400asa. Filmmusikpreis der Fondation SUISA 2012 für «Mary &amp; Johnny».</p></details>
+  <details><summary>Gülistan Savgat</summary><p>Schauspielerin und Sozialpädagogin in Basel, arbeitet mit Menschen mit Flucht- und Migrationserfahrung und zu transgenerationalen Traumata.</p></details>
+  <details><summary>Julian M. Grünthal</summary><p>Film- und Theaterregisseur, Drehbuchautor und Kameramann, ausgebildet an der Zürcher Hochschule der Künste und an der Prague Film School. Langjährig mit 400asa und Maison du Futur verbunden.</p></details>
+  <details><summary>Raphael Urweider · Kaspar Weiss · Lubosch Held</summary><p>Raphael Urweider ist Autor und an der Konzeption von FREI beteiligt. Kaspar Weiss liest «Der Theaterbrand». Lubosch Held leitet den Keller 62 und zeigt «Der Sanfte».</p></details>
+  <details><summary>Sama Schwarz</summary><p>Film- und Theaterregisseur und Kulturproduzent, Mitbegründer von Maison du Futur und des Kollektivs 400asa. Gastgeber des Podcasts «Was für ein Theater».</p></details>
+</section>
+
+<section id="foerderung" aria-labelledby="t6">
+  <h2>Förderung und Partner</h2>
+  <h3 id="t6">Wer «Im Finsteren» möglich macht</h3>
+  <div class="foerder">
+    <div class="haupt"><b>Stadt Zürich, Kultur</b>Das Programm «Im Finsteren» wird von der Stadt Zürich mit einem Flexbeitrag gefördert.</div>
+    <div><b>Kanton Zürich, Fachstelle Kultur</b>Unterstützt FREI 27 mit Mitteln aus dem Swisslos-Fonds.</div>
+    <div><b>Casinelli-Vogel-Stiftung</b>Unterstützt das Format FREI.</div>
+    <div><b>Stanley Thomas Johnson Stiftung</b>Unterstützt den Auftakt in Bern am 11. Dezember.</div>
+    <div><b>Showcase Beat Le Mot, Berlin</b>Künstlerische Partnerschaft im Zyklus «Brecht Brute», gefördert vom Fonds Darstellende Künste.</div>
+    <div><b>Orte</b>Friedhof Forum der Stadt Zürich (Friedhof Sihlfeld, Kapelle A) · Keller 62 · Restaurant La Vie, Bern</div>
+    <div><b>Beratung</b>Pro Infirmis, Fachstelle Kultur inklusiv</div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <p><strong style="color:#ccc">FREI 27 · Im Finsteren</strong> ist eine Programmreihe von Maison du Futur, in Zusammenarbeit mit 400asa.<br>
+  Podcast: <a href="https://theaterpodcast.ch">theaterpodcast.ch</a> · Kontakt: <a href="mailto:info@maison-du-futur.ch">info@maison-du-futur.ch</a></p>
+  <p>Impressum: Maison du Futur gemeinnützige GmbH, Zürich · <a href="https://www.maison-du-futur.ch">maison-du-futur.ch</a></p>
+</footer>
+
 <script>
-  const gate=document.getElementById('gate'),intro=document.getElementById('intro'),main=document.getElementById('main');
-  const v=document.getElementById('v'),again=document.getElementById('again');
-  function start(){
-    gate.classList.add('out');
-    v.currentTime=0; v.muted=false;
-    setTimeout(()=>{
-      intro.classList.remove('out'); intro.classList.add('in');
-      v.play().catch(()=>{ v.muted=true; v.play().catch(()=>{}); });
-    },900);
-  }
-  function finish(){
-    intro.classList.remove('in'); intro.classList.add('out');
-    main.classList.add('in');
-    setTimeout(()=>{again.style.display='block';},2600);
-  }
-  function reset(){
-    main.classList.remove('in'); again.style.display='none';
-    intro.classList.remove('in','out');
-    gate.classList.remove('out');
-  }
-  gate.addEventListener('click',start);
-  v.addEventListener('ended',finish);
-  again.addEventListener('click',reset);
-  document.addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ') && !gate.classList.contains('out')){e.preventDefault();start();} });
+(function(){
+  const hero=document.getElementById('hero'),root=document.documentElement,body=document.body;
+  let auto=true,t=0;
+  function setPos(x,y){hero.style.setProperty('--x',x+'px');hero.style.setProperty('--y',y+'px');}
+  function drift(){ if(!auto) return; t+=0.006; const r=hero.getBoundingClientRect();
+    setPos(r.width*(0.5+0.32*Math.sin(t*1.3)), r.height*(0.45+0.22*Math.sin(t*2.1+1))); requestAnimationFrame(drift);}
+  requestAnimationFrame(drift);
+  function move(e){auto=false;const r=hero.getBoundingClientRect();const p=e.touches?e.touches[0]:e;setPos(p.clientX-r.left,p.clientY-r.top);}
+  hero.addEventListener('mousemove',move);hero.addEventListener('touchmove',move,{passive:true});hero.addEventListener('touchstart',move,{passive:true});
+  const btn=document.getElementById('lichtschalter');
+  btn.addEventListener('click',()=>{const on=body.classList.toggle('licht');btn.textContent=on?'Licht aus':'Licht an';btn.setAttribute('aria-pressed',on);});
+  if(window.matchMedia('(prefers-reduced-motion: reduce)').matches){body.classList.add('licht');btn.textContent='Licht aus';}
+  document.querySelectorAll('.vorlesen').forEach(b=>b.addEventListener('click',()=>{
+    if(!('speechSynthesis' in window)) return;
+    if(speechSynthesis.speaking){speechSynthesis.cancel();b.textContent='Diesen Abschnitt vorlesen';return;}
+    const s=document.getElementById(b.dataset.ziel);const clone=s.cloneNode(true);
+    clone.querySelectorAll('.braille,button,.bogen').forEach(n=>n.remove());
+    const u=new SpeechSynthesisUtterance(clone.innerText.replace(/\s+/g,' '));u.lang='de-CH';u.rate=.95;
+    u.onend=()=>b.textContent='Diesen Abschnitt vorlesen';speechSynthesis.speak(u);b.textContent='Vorlesen stoppen';
+  }));
+})();
 </script>
 </body>
 </html>
