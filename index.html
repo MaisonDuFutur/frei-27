@@ -31,6 +31,10 @@ a:hover{color:var(--glut)}
 #hero .walser{position:absolute;z-index:0;left:0;right:0;top:50%;transform:translateY(-50%);font-family:"Oswald",sans-serif;font-weight:600;text-transform:uppercase;line-height:.82;font-size:clamp(80px,17vw,260px);color:transparent;-webkit-text-stroke:1px #3a3a3a;letter-spacing:.02em;pointer-events:none;user-select:none}
 #hero .brecht{position:absolute;z-index:0;right:4%;bottom:6%;font-family:"Oswald",sans-serif;font-weight:600;text-transform:uppercase;font-size:clamp(34px,6vw,90px);line-height:1;color:transparent;-webkit-text-stroke:1px #333;letter-spacing:.04em;pointer-events:none;user-select:none}
 #hero .walser small{display:block;font-size:.16em;letter-spacing:.4em;-webkit-text-stroke:0;color:#555;margin-top:.5em}
+#hero .karl{position:absolute;z-index:0;left:3%;top:50%;transform:translateY(-50%);width:clamp(260px,38vw,560px);opacity:.4;pointer-events:none;user-select:none}
+#hero .karl figcaption{font-family:"Oswald",sans-serif;letter-spacing:.25em;text-transform:uppercase;font-size:11px;color:#666;margin-top:8px}
+#hero .karl img{width:100%;display:block}
+.spark-kachel{display:block;width:100%;max-width:640px;height:auto;margin:10px 0 22px;border:1px solid #222}
 #veil{position:absolute;inset:0;z-index:2;pointer-events:none;
  background:radial-gradient(circle var(--r,170px) at var(--x,50%) var(--y,45%),rgba(0,0,0,0) 0,rgba(0,0,0,.25) 45%,rgba(0,0,0,.965) 100%);
  transition:opacity 1.6s ease}
@@ -137,6 +141,7 @@ body.zu{overflow:hidden}
 <header id="hero" aria-label="FREI 27, Im Finsteren">
   <div class="walser" aria-hidden="true">Robert<br>Walser</div>
   <div class="brecht" aria-hidden="true">Brecht</div>
+  <figure class="karl" aria-hidden="true"><img src="karl_walser_theaterbrand.jpg" alt=""><figcaption>Karl Walser, «Theaterbrand», Leipzig 1914</figcaption></figure>
   <div class="inner">
     <h1><img src="frei27_logo_weiss.png" alt="FREI 27" class="logo"></h1>
     <p class="motto">Im Finsteren</p>
@@ -296,6 +301,7 @@ body.zu{overflow:hidden}
 <section id="funke" aria-labelledby="t4">
   <h2>Der Funke</h2>
   <h3 id="t4">Be a spark in the dark.</h3>
+  <img class="spark-kachel" src="be_a_spark.png" alt="Be a spark in the dark">
   <video src="intro.mp4" controls playsinline preload="metadata" aria-label="Kurzer Film zu FREI 27"></video>
 </section>
 
