@@ -28,6 +28,8 @@ a:hover{color:var(--glut)}
 #hero .braille{font-size:clamp(22px,3.4vw,40px);color:#bbb;margin:.2em 0 1.2em}
 #hero .whisper{font-size:clamp(15px,1.8vw,20px);color:#aaa;font-style:italic;margin:0}
 #hero .whisper2{position:absolute;z-index:1;font-family:"Oswald",sans-serif;letter-spacing:.3em;text-transform:uppercase;font-size:13px;color:#bbb}
+#hero .walser{position:absolute;z-index:0;left:0;right:0;top:50%;transform:translateY(-50%);font-family:"Oswald",sans-serif;font-weight:600;text-transform:uppercase;line-height:.82;font-size:clamp(80px,17vw,260px);color:transparent;-webkit-text-stroke:1px #3a3a3a;letter-spacing:.02em;pointer-events:none;user-select:none}
+#hero .walser small{display:block;font-size:.16em;letter-spacing:.4em;-webkit-text-stroke:0;color:#555;margin-top:.5em}
 #veil{position:absolute;inset:0;z-index:2;pointer-events:none;
  background:radial-gradient(circle var(--r,170px) at var(--x,50%) var(--y,45%),rgba(0,0,0,0) 0,rgba(0,0,0,.25) 45%,rgba(0,0,0,.965) 100%);
  transition:opacity 1.6s ease}
@@ -100,6 +102,7 @@ footer a{color:#aaa}
 <body>
 
 <header id="hero" aria-label="FREI 27, Im Finsteren">
+  <div class="walser" aria-hidden="true">Robert<br>Walser</div>
   <div class="inner">
     <h1><img src="frei27_logo_weiss.png" alt="FREI 27" class="logo"></h1>
     <p class="motto">Im Finsteren</p>
