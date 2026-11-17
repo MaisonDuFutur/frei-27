@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>FREI 27 · Test Intro B</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  html,body{margin:0;height:100%;background:#000;color:#fff;font-family:"Oswald",Impact,sans-serif;overflow:hidden}
+  .layer{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column}
+  /* Schwelle */
+  #gate{cursor:pointer;transition:opacity 1.4s ease;z-index:3}
+  #gate.out{opacity:0;pointer-events:none}
+  #enter{background:none;border:none;color:#d9d9d9;font-family:inherit;font-weight:400;font-size:clamp(18px,2.6vw,28px);letter-spacing:.6em;padding:24px 32px 24px calc(32px + .6em);cursor:pointer;
+    animation:ember 3.2s ease-in-out infinite;text-transform:uppercase}
+  #enter:hover,#enter:focus-visible{color:#fff;outline:none;animation-duration:1.4s}
+  @keyframes ember{
+    0%,100%{opacity:.35;text-shadow:0 0 0 rgba(255,120,30,0)}
+    50%{opacity:1;text-shadow:0 0 18px rgba(255,120,30,.55),0 0 42px rgba(255,60,0,.25)}
+  }
+  .hint{position:fixed;bottom:22px;width:100%;text-align:center;color:#444;font-size:11px;letter-spacing:.35em;text-transform:uppercase}
+  /* Film */
+  #intro{opacity:0;transition:opacity .8s ease;pointer-events:none;z-index:1}
+  #intro.in{opacity:1}
+  #intro.out{opacity:0;transition:opacity 1.4s ease}
+  #intro video{height:100%;max-width:100%;object-fit:contain}
+  /* Danach */
+  #main{opacity:0;pointer-events:none;transition:opacity 2s ease .6s;z-index:2}
+  #again{z-index:4}
+  #main.in{opacity:1;pointer-events:auto}
+  h1{margin:0;font-weight:700;font-size:clamp(64px,16vw,220px);letter-spacing:.02em;line-height:1}
+  .date{margin-top:1.2rem;font-weight:500;font-size:clamp(16px,2.4vw,26px);letter-spacing:.3em;color:#bbb}
+  #again{position:fixed;right:18px;bottom:18px;display:none;background:none;border:1px solid #333;color:#777;font-family:inherit;font-size:12px;letter-spacing:.2em;text-transform:uppercase;padding:8px 14px;cursor:pointer}
+  #again:hover{color:#fff;border-color:#777}
+</style>
+</head>
+<body>
+<div id="gate" class="layer">
+  <button id="enter" type="button">Eintreten</button>
+  <div class="hint">mit Ton</div>
+</div>
+<div id="intro" class="layer">
+  <video id="v" src="intro.mp4" playsinline preload="auto"></video>
+</div>
+<div id="main" class="layer">
+  <h1>FREI 27</h1>
+  <div class="date">1.1.2027</div>
+</div>
+<button id="again" type="button">Nochmals</button>
+<script>
+  const gate=document.getElementById('gate'),intro=document.getElementById('intro'),main=document.getElementById('main');
+  const v=document.getElementById('v'),again=document.getElementById('again');
+  function start(){
+    gate.classList.add('out');
+    v.currentTime=0; v.muted=false;
+    setTimeout(()=>{
+      intro.classList.remove('out'); intro.classList.add('in');
+      v.play().catch(()=>{ v.muted=true; v.play().catch(()=>{}); });
+    },900);
+  }
+  function finish(){
+    intro.classList.remove('in'); intro.classList.add('out');
+    main.classList.add('in');
+    setTimeout(()=>{again.style.display='block';},2600);
+  }
+  function reset(){
+    main.classList.remove('in'); again.style.display='none';
+    intro.classList.remove('in','out');
+    gate.classList.remove('out');
+  }
+  gate.addEventListener('click',start);
+  v.addEventListener('ended',finish);
+  again.addEventListener('click',reset);
+  document.addEventListener('keydown',e=>{ if((e.key==='Enter'||e.key===' ') && !gate.classList.contains('out')){e.preventDefault();start();} });
+</script>
+</body>
+</html>
